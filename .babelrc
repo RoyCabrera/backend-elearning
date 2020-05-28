@@ -1,0 +1,14 @@
+
+{
+
+    "plugins": [
+    ["transform-inline-environment-variables", {
+      "include": [
+        "JWT_PALABRASECRETA"
+      ]
+    }]
+  ],
+    "presets": [
+        "@babel/preset-env"
+    ]
+}
