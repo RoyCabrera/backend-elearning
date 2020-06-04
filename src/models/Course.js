@@ -6,6 +6,8 @@ import Category from './Category';
 import User from './User';
 import CourseUser from "./CourseUser";
 import Goal from "./Goal";
+import Status from "./Status";
+import Lesson from "./Lesson";
 
 
 class Course extends Model {}
@@ -41,6 +43,12 @@ Course.init({
 
 Course.hasMany(CourseUser);
 CourseUser.belongsTo(Course);
+
+Status.hasMany(Course);
+Course.belongsTo(Status);
+
+Course.hasMany(Lesson);
+Lesson.belongsTo(Course);
 
 Course.belongsTo(Teacher,{
   targetKey:'userId'

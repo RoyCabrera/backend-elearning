@@ -16,7 +16,11 @@ export const getCourses = async (req,res) => {
     include:[
       {model:Teacher,include:User},
       {model:Level},
-      {model:Category}
+      {model:Category},
+      {model:Status}
+    ],
+    order:[
+      ["statusId","DESC"]
     ]
   });
   res.json({
@@ -31,8 +35,8 @@ export const getCourse = async (req,res) => {
       include:[
         {model:Teacher,include:User},
         {model:Level},
-        {model:Category}
-
+        {model:Category},
+        {model:Lesson}
       ],
       where:{
         id
@@ -110,7 +114,8 @@ export const mycourses = async (req,res) => {
           model:Course,include:[
             {model:Teacher,include:User},
             {model:Level},
-            {model:Category}
+            {model:Category},
+            {model:Lesson}
 
           ],
         }
@@ -230,5 +235,38 @@ export const createCourse = async (req,res) => {
       message:"curso creado satisfactoriamente",
 
     })
+}
+
+export const cambiarEstado = async (req,res)=> {
+
+  const { id,statusId} = req.body;
+
+
+  try {
+      const courses = await Course.findAll({
+          //atributes: ['id', 'name', 'last_name', 'password'],
+          where: {
+              id
+          }
+      });
+      if (courses.length > 0) {
+        courses.forEach(async (course) => {
+              await course.update({
+                  // name: name ? name : project.name,
+                  statusId:statusId
+
+              });
+          });
+          return res.json({
+              message: 'course Updated',
+              data: courses
+          })
+      }
+  } catch (e) {
+      res.json({
+          message: 'No se pudo actualizar el curso.',
+          data: {}
+      })
+  }
 }
 

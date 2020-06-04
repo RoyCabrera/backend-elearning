@@ -12,7 +12,8 @@ Status.init({
 },{
   sequelize,
   modelName:'status',
-  timestamps:false
+  timestamps:false,
+  tableName:'status'
 });
 
 export default Status;
