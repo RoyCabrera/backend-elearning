@@ -18,4 +18,8 @@ Student.init({
   timestamps:false
 });
 
+/* Student.belongsToMany(Course,{
+  through:'course_student'
+}) */
+
 export default Student;

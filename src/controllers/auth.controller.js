@@ -37,7 +37,7 @@ export const userAuthentication = async (req, res) => {
     },
   };
 
-  jwt.sign(payload,process.env.JWT_PALABRASECRETA,
+  jwt.sign(payload,'palabrasecreta',
     {
       expiresIn: 3600,
     },
@@ -58,7 +58,7 @@ export const userAuthenticated = async (req,res)=>{
   try {
     const usuario = await User.findOne({
       where:req.usuario.id,
-      attributes:['id','name','email','last_name','picture'],
+      attributes:['id','name','email','last_name','picture','roleId'],
       include:[Role,Student]
 
     });

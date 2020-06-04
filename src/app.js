@@ -13,8 +13,8 @@ import roleRoute from './routes/roles';
 import courseRoute from './routes/course';
 import categoryRoute from './routes/category';
 import goalRoute from './routes/goal';
-
-
+/* import coursesEnrolled from './routes/coursesEnrolled'; */
+import coursesEnrolled from './routes/coursesEnrolled';
 
 //middlewares
 app.use(cors())
@@ -31,5 +31,8 @@ app.use('/api/courses',courseRoute);
 app.use('/api/categories',categoryRoute);
 app.use('/api/goals',goalRoute);
 
+
+/* app.use('/api/courses_enrolled',coursesEnrolled); */
+app.use('/api/cursos_matriculados',coursesEnrolled)
 
 export default app;

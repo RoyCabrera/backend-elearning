@@ -13,7 +13,7 @@ const auth = (req, res, next) => {
     // validar el token
 
     try {
-        const cifrado = jwt.verify(token, process.env.JWT_PALABRASECRETA);
+        const cifrado = jwt.verify(token, 'palabrasecreta');
         req.usuario = cifrado.usuario;
         next();
     } catch (error) {

@@ -1,6 +1,7 @@
 import Sequelize,{Model} from 'sequelize';
 import {sequelize} from '../database/database';
 
+
 class Teacher extends Model{}
 
 Teacher.init({
@@ -19,5 +20,7 @@ Teacher.init({
   modelName:'teacher',
   timestamps:false
 })
+
+
 
 export default Teacher;
