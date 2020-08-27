@@ -37,6 +37,7 @@ export const getCourse = async (req,res) => {
         {model:Level},
         {model:Category},
         {model:Lesson}
+
       ],
       where:{
         id
@@ -46,6 +47,8 @@ export const getCourse = async (req,res) => {
     res.json({
       course:course
     });
+
+
   } catch (error) {
     console.log(error);
 
@@ -118,10 +121,15 @@ export const mycourses = async (req,res) => {
             {model:Lesson}
 
           ],
+          where:{
+            statusId:1
+          }
         }
+
       ],
       where:{
-        userId:id
+        userId:id,
+
       }
     })
 
@@ -135,106 +143,85 @@ export const mycourses = async (req,res) => {
 }
 
 export const createCourse = async (req,res) => {
+
+  /* const {file,body} = req; */
+
+  /* console.log(JSON.parse(req.body.logros)); */
+
+  //console.log(req.file);
+  /* console.log("xxxxxxxxxxxxxxxxxxxxxxxx");
+  console.log(file) */;
+
+
+  const logros = JSON.parse(req.body.logros)
+  const lecciones = JSON.parse(req.body.lecciones)
+
   const {
     teacherId,
     name,
     description,
     category,
     level,
-    logro1,
-    logro2,
-    logro3,
-    logro4,
-    namelesson1,
-    namelesson2,
-    namelesson3,
-    namelesson4,
-    urllesson1,
-    urllesson2,
-    urllesson3,
-    urllesson4} = req.body;
 
 
+  } = JSON.parse(req.body.course);
 
-
-
-
+  try {
     const newCourse = await Course.create(
       {
       name:name,
       description:description,
       teacherId:teacherId,
       categoryId:category,
-      levelId:level
+      levelId:level,
+      picture:req.file.path
     },
     {
-      fields:['name','description','teacherId','categoryId','levelId']
+      fields:['name','description','teacherId','categoryId','levelId','picture']
     }
     )
 
     // insertar goals
 
 
-    let goals = [logro1,logro2,logro3,logro4];
-    goals.forEach(async (goal) => {
-      if (goal != '') {
-
-        await Goal.create({
-          courseId:newCourse.id,
-          goal:goal
-        },{
-          fields:['courseId','goal']
-        })
-
-      }
-
-  });
 
 
 
-    if(namelesson1 != '' && urllesson1 != ''){
+    Object.values(logros).forEach(async val => {
+
+      await Goal.create({
+        courseId:newCourse.id,
+        goal:val.logro
+      },{
+        fields:['courseId','goal']
+      })
+
+    });
+
+    console.log(lecciones);
+
+    Object.values(lecciones).forEach(async val => {
       await Lesson.create({
         courseId:newCourse.id,
-        url:urllesson1,
-        lesson:namelesson1
+        url:val.url_leccion,
+        lesson:val.nombre,
+        description:val.descripcion_leccion,
+        exercise:val.code
       },{
-        fields:['courseId','url','lesson']
+        fields:['courseId','url','lesson','description','exercise']
       })
-    }
-    if(namelesson2 != '' && urllesson2 != ''){
-      await Lesson.create({
-        courseId:newCourse.id,
-        url:urllesson2,
-        lesson:namelesson2
-      },{
-        fields:['courseId','url','lesson']
-      })
-    }
-    if(namelesson3 != '' && urllesson3 != ''){
-      await Lesson.create({
-        courseId:newCourse.id,
-        url:urllesson3,
-        lesson:namelesson3
-      },{
-        fields:['courseId','url','lesson']
-      })
-    }
-    if(namelesson4 != '' && urllesson4 != ''){
-      await Lesson.create({
-        courseId:newCourse.id,
-        url:urllesson4,
-        lesson:namelesson4
-      },{
-        fields:['courseId','url','lesson']
-      })
-    }
-
+    })
 
 
     res.json({
       message:"curso creado satisfactoriamente",
 
     })
+  } catch (error) {
+
+  }
+
+
 }
 
 export const cambiarEstado = async (req,res)=> {
@@ -258,7 +245,7 @@ export const cambiarEstado = async (req,res)=> {
               });
           });
           return res.json({
-              message: 'course Updated',
+              message: 'curso actualizado',
               data: courses
           })
       }
@@ -270,3 +257,34 @@ export const cambiarEstado = async (req,res)=> {
   }
 }
 
+
+export const misCursosImpartidos = async (req,res)=> {
+  const {id} = req.params;
+
+  try {
+    const misCursos = await Course.findAll({
+
+      include:[
+
+            {model:Teacher,include:User},
+            {model:Level},
+            {model:Category},
+            {model:Lesson},
+            {model:Status}
+
+
+      ],
+      where:{
+        teacherId:id,
+
+      }
+    })
+
+    res.json({
+      misCursos:misCursos
+    });
+  } catch (error) {
+    console.log(error);
+
+  }
+}

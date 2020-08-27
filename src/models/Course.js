@@ -8,6 +8,7 @@ import CourseUser from "./CourseUser";
 import Goal from "./Goal";
 import Status from "./Status";
 import Lesson from "./Lesson";
+import Review from './Review';
 
 
 class Course extends Model {}
@@ -50,6 +51,9 @@ Course.belongsTo(Status);
 Course.hasMany(Lesson);
 Lesson.belongsTo(Course);
 
+/* Course.hasMany(Review);
+Review.belongsTo(Course); */
+
 Course.belongsTo(Teacher,{
   targetKey:'userId'
 });
@@ -63,6 +67,8 @@ Category.hasMany(Course);
 
 Course.hasMany(Goal);
 Goal.belongsTo(Course);
+
+
 
 /* Course.belongsToMany(User,{
   through:'course_student',

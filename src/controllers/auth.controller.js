@@ -46,9 +46,11 @@ export const userAuthentication = async (req, res) => {
 
       // mensaje de confirmacion
 
-      res.json({
+      res.status(200).json({
         token: token,
       });
+
+
     }
   );
 };

@@ -12,7 +12,9 @@ Lesson.init({
   lesson:Sequelize.TEXT,
   url:Sequelize.TEXT,
   courseId:Sequelize.INTEGER,
-
+  exercise:Sequelize.TEXT,
+  archive:Sequelize.TEXT,
+  description:Sequelize.TEXT,
 
   updated_at:Sequelize.DATE,
   courseId:Sequelize.INTEGER
