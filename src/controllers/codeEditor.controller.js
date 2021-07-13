@@ -1,7 +1,13 @@
 import axios from "axios";
 
-let accessToken = "491d3e8fa53914a405bdc84c7a28c1f4";
-let endpoint = "c4478df5.compilers.sphere-engine.com";
+/* let accessToken = "491d3e8fa53914a405bdc84c7a28c1f4";
+let endpoint = "c4478df5.compilers.sphere-engine.com"; */
+
+// nuevo token
+
+let accessToken = "5f87053c460b436254f4dc04e24223c5";
+let endpoint = "6ce64d1e.compilers.sphere-engine.com";
+
 
 export const getLenguajes = async (req, res) => {
   const response = await axios.get(
